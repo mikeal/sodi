@@ -54,17 +54,24 @@ module.exports = keypair => {
     }
     return signatures.sign(message, keypair.secretKey)
   }
-  exports.verify = (message, signature, publicKey) => {
-    if (!Buffer.isBuffer(message)) {
-      if (typeof message !== 'string') {
-        throw new Error('Message must be buffer or string')
-      }
-      message = new Buffer(message)
-    }
-    if (!Buffer.isBuffer(publicKey)) publicKey = new Buffer(publicKey, 'hex')
-    return signatures.verify(message, signature, publicKey)
-  }
+  exports.verify = module.exports.verify
   exports.public = keypair.publicKey.toString('hex')
   return exports
 }
 module.exports.generate = generate
+
+module.exports.verify = (message, signature, publicKey) => {
+  if (!Buffer.isBuffer(message)) {
+    if (typeof message !== 'string') {
+      throw new Error('Message must be buffer or string')
+    }
+    message = new Buffer(message)
+  }
+  if (!Buffer.isBuffer(publicKey) && typeof publicKey === 'string') {
+    publicKey = new Buffer(publicKey, 'hex')
+  }
+  if (!Buffer.isBuffer(signature) && typeof signature === 'string') {
+    signature = new Buffer(signature, 'hex')
+  }
+  return signatures.verify(message, signature, publicKey)
+}
