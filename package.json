@@ -12,6 +12,6 @@
   "dependencies": {
     "ed2curve": "^0.2.1",
     "sodium-encryption": "^1.2.2",
-    "sodium-signatures": "^1.4.1"
+    "sodium-signatures": "^2.0.0"
   }
 }
